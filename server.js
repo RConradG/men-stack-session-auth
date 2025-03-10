@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const authController = require("./controllers/auth");
+const session = require("express-session");
 
 // config
 dotenv.config();
@@ -39,10 +40,19 @@ app.use("/auth", authController);
 // any HTTP requests from the browser that come to /auth… will auto 
 // forward to the router code inside of the authController
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+})
+);
+
 // mount routes
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", {
+    user: req.session.user,
+  });
 });
 
 // tell the app to listen for HTTP requests
