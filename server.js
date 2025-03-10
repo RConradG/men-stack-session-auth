@@ -34,6 +34,10 @@ app.use(morgan("dev"));
 
 // mount routes
 
+app.get("/", (req, res) => {
+  res.render("index.ejs");
+});
+
 // tell the app to listen for HTTP requests
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}`);
