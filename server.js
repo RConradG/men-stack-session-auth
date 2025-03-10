@@ -1,8 +1,10 @@
+// dependencies
 const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
+const authController = require("./controllers/auth");
 
 // config
 dotenv.config();
@@ -31,6 +33,11 @@ app.use(methodOverride("_method"));
 
 // Morgan for logging HTTP requests
 app.use(morgan("dev")); 
+
+// router code is actually a type of middleware!
+app.use("/auth", authController);
+// any HTTP requests from the browser that come to /auth… will auto 
+// forward to the router code inside of the authController
 
 // mount routes
 
